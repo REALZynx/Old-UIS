@@ -4960,8 +4960,10 @@ function Library:Window(p)
 		local Desc = p.Desc
 		local TitleButton1 = p.Button1.Title or 'null'
 		local TitleButton2 = p.Button2.Title or 'null'
-		local Color1 = p.Button1.Color or Color3.fromRGB(35, 60, 130)
-		local Color2 = p.Button2.Color or Color3.fromRGB(165, 167, 175)
+		-- Leave these nil when not provided so the buttons fall back to the current theme's
+		-- colors (and keep tracking theme changes) instead of a hardcoded color.
+		local Color1 = p.Button1.Color
+		local Color2 = p.Button2.Color
 
 		-- Converts **bold** markdown syntax into RichText <b> tags so Desc text supports markdown-style bolding.
 		-- Text already containing tags (e.g. custom <font> usage) is left untouched.
@@ -5001,20 +5003,24 @@ function Library:Window(p)
 		Card.Name = "Card"
 		Card.Parent = Dialog
 		Card.AnchorPoint = Vector2.new(0.5, 0.5)
-		Card.BackgroundColor3 = Color3.fromRGB(26, 27, 34)
+		Card.BackgroundColor3 = themes[IsTheme].Background
 		Card.BorderColor3 = Color3.fromRGB(0,0,0)
 		Card.BorderSizePixel = 0
 		Card.Position = UDim2.new(0.5, 0,0.5, 0)
 		Card.Size = UDim2.new(0, 380,0, 0)
 		Card.AutomaticSize = Enum.AutomaticSize.Y
 
+		addToTheme('Background', Card)
+
 		UICorner_Card.Parent = Card
 		UICorner_Card.CornerRadius = UDim.new(0,12)
 
 		UIStroke_Card.Parent = Card
-		UIStroke_Card.Color = Color3.fromRGB(50, 52, 63)
+		UIStroke_Card.Color = themes[IsTheme].Shadow
 		UIStroke_Card.Thickness = 1
 		UIStroke_Card.Transparency = 0.4
+
+		addToTheme('Shadow', UIStroke_Card)
 
 		UIPadding_Card.Parent = Card
 		UIPadding_Card.PaddingTop = UDim.new(0,20)
@@ -5037,11 +5043,13 @@ function Library:Window(p)
 		TitleLabel.Font = Enum.Font.GothamBold
 		TitleLabel.RichText = true
 		TitleLabel.Text = tostring(Title)
-		TitleLabel.TextColor3 = Color3.fromRGB(255,255,255)
+		TitleLabel.TextColor3 = themes[IsTheme]['Text & Icon']
 		TitleLabel.TextSize = 18
 		TitleLabel.TextWrapped = true
 		TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
 		TitleLabel.TextYAlignment = Enum.TextYAlignment.Top
+
+		addToTheme('Text & Icon', TitleLabel)
 
 		if Desc and tostring(Desc) ~= "" then
 			local DescLabel = Instance.new("TextLabel")
@@ -5055,11 +5063,14 @@ function Library:Window(p)
 			DescLabel.Font = Enum.Font.Gotham
 			DescLabel.RichText = true
 			DescLabel.Text = (tostring(Desc):gsub("%*%*(.-)%*%*", "<b>%1</b>"))
-			DescLabel.TextColor3 = Color3.fromRGB(188, 190, 197)
+			DescLabel.TextColor3 = themes[IsTheme]['Text & Icon']
+			DescLabel.TextTransparency = 0.25
 			DescLabel.TextSize = 14
 			DescLabel.TextWrapped = true
 			DescLabel.TextXAlignment = Enum.TextXAlignment.Left
 			DescLabel.TextYAlignment = Enum.TextYAlignment.Top
+
+			addToTheme('Text & Icon', DescLabel)
 		end
 
 		ButtonsRow.Name = "Buttons"
@@ -5079,9 +5090,11 @@ function Library:Window(p)
 		CancelBtn.Name = "Cancel"
 		CancelBtn.Parent = ButtonsRow
 		CancelBtn.LayoutOrder = 1
-		CancelBtn.BackgroundColor3 = Color3.fromRGB(36, 37, 45)
+		CancelBtn.BackgroundColor3 = themes[IsTheme].Page
 		CancelBtn.BorderSizePixel = 0
 		CancelBtn.Size = UDim2.new(0, 0,1, 0)
+
+		addToTheme('Page', CancelBtn)
 
 		UICorner_Cancel.Parent = CancelBtn
 		UICorner_Cancel.CornerRadius = UDim.new(0,8)
@@ -5091,17 +5104,25 @@ function Library:Window(p)
 		CancelText.Size = UDim2.new(1, 0,1, 0)
 		CancelText.Font = Enum.Font.GothamMedium
 		CancelText.Text = toDisplay(TitleButton2)
-		CancelText.TextColor3 = Color2
+		CancelText.TextColor3 = Color2 or themes[IsTheme]['Text & Icon']
 		CancelText.TextSize = 13
+
+		if not Color2 then
+			addToTheme('Text & Icon', CancelText)
+		end
 
 		CancelBtn.Size = UDim2.new(0, CancelText.TextBounds.X + 32,1, 0)
 
 		ConfirmBtn.Name = "Confirm"
 		ConfirmBtn.Parent = ButtonsRow
 		ConfirmBtn.LayoutOrder = 2
-		ConfirmBtn.BackgroundColor3 = Color1
+		ConfirmBtn.BackgroundColor3 = Color1 or themes[IsTheme].Main
 		ConfirmBtn.BorderSizePixel = 0
 		ConfirmBtn.Size = UDim2.new(0, 0,1, 0)
+
+		if not Color1 then
+			addToTheme('Main', ConfirmBtn)
+		end
 
 		UICorner_Confirm.Parent = ConfirmBtn
 		UICorner_Confirm.CornerRadius = UDim.new(0,8)
