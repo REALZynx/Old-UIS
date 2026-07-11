@@ -56,6 +56,19 @@ local Tab = Window:Tab({Title = "Main", Icon = "star"}) do
         end
     })
 
+    Tab:Button({
+        Title = "Dialog",
+        Desc = "Click to show a dialog",
+        Callback = function()
+            Tab:Dialog({
+    Title = "Dialogue",
+    Desc = "This is a dialogue box\nThat support **markdown**",
+    Button1 = { Title = "Confirm", Callback = function() end },
+    Button2 = { Title = "Cancel" }
+})
+        end
+    })
+
     -- Textbox
     Tab:Textbox({
         Title = "Input Text",
