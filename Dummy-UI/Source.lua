@@ -5386,7 +5386,7 @@ function Library:Window(p)
 			Tabs:Dialog({
 				Title = "Do you want to <font color='#FF0000'>close</font> the ui?",
 				Button1 = {
-					Title = 'YES SIR',
+					Title = 'Confirm',
 					Color = Color3.fromRGB(0, 188, 0),
 					Callback = function()
 						ScreenGui:Destroy()
