@@ -4957,166 +4957,173 @@ function Library:Window(p)
 		local Button1 = p.Button1.Callback or function() end
 		local Button2 = p.Button2.Callback or function() end
 		local Title = p.Title or 'null'
+		local Desc = p.Desc
 		local TitleButton1 = p.Button1.Title or 'null'
 		local TitleButton2 = p.Button2.Title or 'null'
-		local Color1 = p.Button1.Color or Color3.fromRGB(0, 188, 0)
-		local Color2 = p.Button2.Color or Color3.fromRGB(226, 39, 6)
+		local Color1 = p.Button1.Color or Color3.fromRGB(35, 60, 130)
+		local Color2 = p.Button2.Color or Color3.fromRGB(165, 167, 175)
+
+		-- Converts **bold** markdown syntax into RichText <b> tags so Desc text supports markdown-style bolding.
+		-- Text already containing tags (e.g. custom <font> usage) is left untouched.
+		local function toDisplay(s)
+			s = tostring(s)
+			if s:find("<") then
+				return s
+			end
+			return s:upper()
+		end
 
 		local Dialog = Instance.new("CanvasGroup")
-		local UICorner_1 = Instance.new("UICorner")
-		local Frame_1 = Instance.new("Frame")
-		local TextLabel_1 = Instance.new("TextLabel")
-		local UIListLayout_1 = Instance.new("UIListLayout")
-		local Frame_2 = Instance.new("Frame")
-		local Button1_1 = Instance.new("Frame")
-		local UICorner_2 = Instance.new("UICorner")
-		local UIGradient_1 = Instance.new("UIGradient")
-		local UIStroke_1 = Instance.new("UIStroke")
-		local UIGradient_2 = Instance.new("UIGradient")
-		local TextLabel_2 = Instance.new("TextLabel")
-		local UIStroke_2 = Instance.new("UIStroke")
-		local UIListLayout_2 = Instance.new("UIListLayout")
-		local Button2_1 = Instance.new("Frame")
-		local UICorner_3 = Instance.new("UICorner")
-		local UIGradient_3 = Instance.new("UIGradient")
-		local UIStroke_3 = Instance.new("UIStroke")
-		local UIGradient_4 = Instance.new("UIGradient")
-		local TextLabel_3 = Instance.new("TextLabel")
-		local UIStroke_4 = Instance.new("UIStroke")
+		local Card = Instance.new("Frame")
+		local UICorner_Card = Instance.new("UICorner")
+		local UIStroke_Card = Instance.new("UIStroke")
+		local UIPadding_Card = Instance.new("UIPadding")
+		local UIListLayout_Card = Instance.new("UIListLayout")
+		local TitleLabel = Instance.new("TextLabel")
+		local ButtonsRow = Instance.new("Frame")
+		local UIListLayout_Buttons = Instance.new("UIListLayout")
+		local CancelBtn = Instance.new("Frame")
+		local UICorner_Cancel = Instance.new("UICorner")
+		local CancelText = Instance.new("TextLabel")
+		local ConfirmBtn = Instance.new("Frame")
+		local UICorner_Confirm = Instance.new("UICorner")
+		local ConfirmText = Instance.new("TextLabel")
 
 		Dialog.Name = "Dialog"
 		Dialog.Parent = Shadow_1
 		Dialog.BackgroundColor3 = Color3.fromRGB(0,0,0)
-		Dialog.BackgroundTransparency = 0.3
+		Dialog.BackgroundTransparency = 0.35
 		Dialog.BorderColor3 = Color3.fromRGB(0,0,0)
 		Dialog.BorderSizePixel = 0
 		Dialog.Size = UDim2.new(1, 0,1, 0)
 		Dialog.GroupTransparency = 1
 
-		UICorner_1.Parent = Dialog
-		UICorner_1.CornerRadius = UDim.new(0,17)
+		Card.Name = "Card"
+		Card.Parent = Dialog
+		Card.AnchorPoint = Vector2.new(0.5, 0.5)
+		Card.BackgroundColor3 = Color3.fromRGB(26, 27, 34)
+		Card.BorderColor3 = Color3.fromRGB(0,0,0)
+		Card.BorderSizePixel = 0
+		Card.Position = UDim2.new(0.5, 0,0.5, 0)
+		Card.Size = UDim2.new(0, 380,0, 0)
+		Card.AutomaticSize = Enum.AutomaticSize.Y
 
-		Frame_1.Parent = Dialog
-		Frame_1.AnchorPoint = Vector2.new(0.5, 0.5)
-		Frame_1.BackgroundColor3 = Color3.fromRGB(255,255,255)
-		Frame_1.BackgroundTransparency = 1
-		Frame_1.BorderColor3 = Color3.fromRGB(0,0,0)
-		Frame_1.BorderSizePixel = 0
-		Frame_1.Position = UDim2.new(0.5, 0,0.5, 0)
-		Frame_1.Size = UDim2.new(0, 100,0, 100)
+		UICorner_Card.Parent = Card
+		UICorner_Card.CornerRadius = UDim.new(0,12)
 
-		TextLabel_1.Parent = Frame_1
-		TextLabel_1.BackgroundColor3 = Color3.fromRGB(255,255,255)
-		TextLabel_1.BackgroundTransparency = 1
-		TextLabel_1.BorderColor3 = Color3.fromRGB(0,0,0)
-		TextLabel_1.BorderSizePixel = 0
-		TextLabel_1.Size = UDim2.new(0, 200,0, 30)
-		TextLabel_1.Font = Enum.Font.GothamBold
-		TextLabel_1.RichText = true
-		TextLabel_1.Text = tostring(Title)
-		TextLabel_1.TextColor3 = Color3.fromRGB(255,255,255)
-		TextLabel_1.TextSize = 20
+		UIStroke_Card.Parent = Card
+		UIStroke_Card.Color = Color3.fromRGB(50, 52, 63)
+		UIStroke_Card.Thickness = 1
+		UIStroke_Card.Transparency = 0.4
 
-		UIListLayout_1.Parent = Frame_1
-		UIListLayout_1.HorizontalAlignment = Enum.HorizontalAlignment.Center
-		UIListLayout_1.SortOrder = Enum.SortOrder.LayoutOrder
-		UIListLayout_1.VerticalAlignment = Enum.VerticalAlignment.Center
+		UIPadding_Card.Parent = Card
+		UIPadding_Card.PaddingTop = UDim.new(0,20)
+		UIPadding_Card.PaddingBottom = UDim.new(0,20)
+		UIPadding_Card.PaddingLeft = UDim.new(0,20)
+		UIPadding_Card.PaddingRight = UDim.new(0,20)
 
-		Frame_2.Parent = Frame_1
-		Frame_2.BackgroundColor3 = Color3.fromRGB(255,255,255)
-		Frame_2.BackgroundTransparency = 1
-		Frame_2.BorderColor3 = Color3.fromRGB(0,0,0)
-		Frame_2.BorderSizePixel = 0
-		Frame_2.LayoutOrder = 1
-		Frame_2.Size = UDim2.new(0, 100,0, 50)
+		UIListLayout_Card.Parent = Card
+		UIListLayout_Card.SortOrder = Enum.SortOrder.LayoutOrder
+		UIListLayout_Card.HorizontalAlignment = Enum.HorizontalAlignment.Left
+		UIListLayout_Card.Padding = UDim.new(0,14)
 
-		Button1_1.Name = "Button1"
-		Button1_1.Parent = Frame_2
-		Button1_1.BackgroundColor3 = Color3.fromRGB(255,255,255)
-		Button1_1.BorderColor3 = Color3.fromRGB(0,0,0)
-		Button1_1.BorderSizePixel = 0
-		Button1_1.Size = UDim2.new(0, 130,0, 40)
+		TitleLabel.Name = "Title"
+		TitleLabel.Parent = Card
+		TitleLabel.LayoutOrder = 1
+		TitleLabel.BackgroundTransparency = 1
+		TitleLabel.BorderSizePixel = 0
+		TitleLabel.Size = UDim2.new(1, 0,0, 0)
+		TitleLabel.AutomaticSize = Enum.AutomaticSize.Y
+		TitleLabel.Font = Enum.Font.GothamBold
+		TitleLabel.RichText = true
+		TitleLabel.Text = tostring(Title)
+		TitleLabel.TextColor3 = Color3.fromRGB(255,255,255)
+		TitleLabel.TextSize = 18
+		TitleLabel.TextWrapped = true
+		TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+		TitleLabel.TextYAlignment = Enum.TextYAlignment.Top
 
-		UICorner_2.Parent = Button1_1
-		UICorner_2.CornerRadius = UDim.new(1,0)
+		if Desc and tostring(Desc) ~= "" then
+			local DescLabel = Instance.new("TextLabel")
+			DescLabel.Name = "Desc"
+			DescLabel.Parent = Card
+			DescLabel.LayoutOrder = 2
+			DescLabel.BackgroundTransparency = 1
+			DescLabel.BorderSizePixel = 0
+			DescLabel.Size = UDim2.new(1, 0,0, 0)
+			DescLabel.AutomaticSize = Enum.AutomaticSize.Y
+			DescLabel.Font = Enum.Font.Gotham
+			DescLabel.RichText = true
+			DescLabel.Text = (tostring(Desc):gsub("%*%*(.-)%*%*", "<b>%1</b>"))
+			DescLabel.TextColor3 = Color3.fromRGB(188, 190, 197)
+			DescLabel.TextSize = 14
+			DescLabel.TextWrapped = true
+			DescLabel.TextXAlignment = Enum.TextXAlignment.Left
+			DescLabel.TextYAlignment = Enum.TextYAlignment.Top
+		end
 
-		UIGradient_1.Parent = Button1_1
-		UIGradient_1.Color = ColorSequence.new{ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(124, 124, 124))}
+		ButtonsRow.Name = "Buttons"
+		ButtonsRow.Parent = Card
+		ButtonsRow.LayoutOrder = 3
+		ButtonsRow.BackgroundTransparency = 1
+		ButtonsRow.BorderSizePixel = 0
+		ButtonsRow.Size = UDim2.new(1, 0,0, 34)
 
-		UIStroke_1.Parent = Button1_1
-		UIStroke_1.Color = Color3.fromRGB(255,255,255)
-		UIStroke_1.Thickness = 2
+		UIListLayout_Buttons.Parent = ButtonsRow
+		UIListLayout_Buttons.FillDirection = Enum.FillDirection.Horizontal
+		UIListLayout_Buttons.HorizontalAlignment = Enum.HorizontalAlignment.Right
+		UIListLayout_Buttons.VerticalAlignment = Enum.VerticalAlignment.Center
+		UIListLayout_Buttons.SortOrder = Enum.SortOrder.LayoutOrder
+		UIListLayout_Buttons.Padding = UDim.new(0,10)
 
-		UIGradient_2.Parent = UIStroke_1
-		UIGradient_2.Color = ColorSequence.new{ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(124, 124, 124))}
-		UIGradient_2.Rotation = 180
+		CancelBtn.Name = "Cancel"
+		CancelBtn.Parent = ButtonsRow
+		CancelBtn.LayoutOrder = 1
+		CancelBtn.BackgroundColor3 = Color3.fromRGB(36, 37, 45)
+		CancelBtn.BorderSizePixel = 0
+		CancelBtn.Size = UDim2.new(0, 0,1, 0)
 
-		TextLabel_2.Parent = Button1_1
-		TextLabel_2.BackgroundColor3 = Color3.fromRGB(255,255,255)
-		TextLabel_2.BackgroundTransparency = 1
-		TextLabel_2.BorderColor3 = Color3.fromRGB(0,0,0)
-		TextLabel_2.BorderSizePixel = 0
-		TextLabel_2.Size = UDim2.new(1, 0,1, 0)
-		TextLabel_2.Font = Enum.Font.GothamBold
-		TextLabel_2.Text = TitleButton1
-		TextLabel_2.TextColor3 = Color1
-		TextLabel_2.TextSize = 16
+		UICorner_Cancel.Parent = CancelBtn
+		UICorner_Cancel.CornerRadius = UDim.new(0,8)
 
-		UIStroke_2.Parent = TextLabel_2
-		UIStroke_2.Thickness = 1
-		UIStroke_2.Transparency = 0.95
+		CancelText.Parent = CancelBtn
+		CancelText.BackgroundTransparency = 1
+		CancelText.Size = UDim2.new(1, 0,1, 0)
+		CancelText.Font = Enum.Font.GothamMedium
+		CancelText.Text = toDisplay(TitleButton2)
+		CancelText.TextColor3 = Color2
+		CancelText.TextSize = 13
 
-		UIListLayout_2.Parent = Frame_2
-		UIListLayout_2.Padding = UDim.new(0,10)
-		UIListLayout_2.FillDirection = Enum.FillDirection.Horizontal
-		UIListLayout_2.HorizontalAlignment = Enum.HorizontalAlignment.Center
-		UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
-		UIListLayout_2.VerticalAlignment = Enum.VerticalAlignment.Center
+		CancelBtn.Size = UDim2.new(0, CancelText.TextBounds.X + 32,1, 0)
 
-		Button2_1.Name = "Button2"
-		Button2_1.Parent = Frame_2
-		Button2_1.BackgroundColor3 = Color3.fromRGB(255,255,255)
-		Button2_1.BorderColor3 = Color3.fromRGB(0,0,0)
-		Button2_1.BorderSizePixel = 0
-		Button2_1.Size = UDim2.new(0, 130,0, 40)
+		ConfirmBtn.Name = "Confirm"
+		ConfirmBtn.Parent = ButtonsRow
+		ConfirmBtn.LayoutOrder = 2
+		ConfirmBtn.BackgroundColor3 = Color1
+		ConfirmBtn.BorderSizePixel = 0
+		ConfirmBtn.Size = UDim2.new(0, 0,1, 0)
 
-		UICorner_3.Parent = Button2_1
-		UICorner_3.CornerRadius = UDim.new(1,0)
+		UICorner_Confirm.Parent = ConfirmBtn
+		UICorner_Confirm.CornerRadius = UDim.new(0,8)
 
-		UIGradient_3.Parent = Button2_1
-		UIGradient_3.Color = ColorSequence.new{ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(124, 124, 124))}
+		ConfirmText.Parent = ConfirmBtn
+		ConfirmText.BackgroundTransparency = 1
+		ConfirmText.Size = UDim2.new(1, 0,1, 0)
+		ConfirmText.Font = Enum.Font.GothamBold
+		ConfirmText.Text = toDisplay(TitleButton1)
+		ConfirmText.TextColor3 = Color3.fromRGB(255,255,255)
+		ConfirmText.TextSize = 13
 
-		UIStroke_3.Parent = Button2_1
-		UIStroke_3.Color = Color3.fromRGB(255,255,255)
-		UIStroke_3.Thickness = 2
-
-		UIGradient_4.Parent = UIStroke_3
-		UIGradient_4.Color = ColorSequence.new{ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(124, 124, 124))}
-		UIGradient_4.Rotation = 180
-
-		TextLabel_3.Parent = Button2_1
-		TextLabel_3.BackgroundColor3 = Color3.fromRGB(255,255,255)
-		TextLabel_3.BackgroundTransparency = 1
-		TextLabel_3.BorderColor3 = Color3.fromRGB(0,0,0)
-		TextLabel_3.BorderSizePixel = 0
-		TextLabel_3.Size = UDim2.new(1, 0,1, 0)
-		TextLabel_3.Font = Enum.Font.GothamBold
-		TextLabel_3.Text = TitleButton2
-		TextLabel_3.TextColor3 = Color2
-		TextLabel_3.TextSize = 16
-
-		UIStroke_4.Parent = TextLabel_3
-		UIStroke_4.Thickness = 1
-		UIStroke_4.Transparency = 0.95
+		ConfirmBtn.Size = UDim2.new(0, ConfirmText.TextBounds.X + 32,1, 0)
 
 		tw({v = Dialog, t = 0.25, s = Enum.EasingStyle.Linear, d = "Out", g = {GroupTransparency = 0}}):Play()
-		local Click1 = click(Button1_1)
-		local Click2 = click(Button2_1)
+		local Click1 = click(ConfirmBtn)
+		local Click2 = click(CancelBtn)
 		Click1.MouseButton1Click:Connect(function()
 			pcall(Button1)
-			tw({v = TextLabel_2, t = 0.15, s = Enum.EasingStyle.Back, d = "Out", g = {TextSize = TextLabel_2.TextSize - 2}}):Play()
+			tw({v = ConfirmText, t = 0.15, s = Enum.EasingStyle.Back, d = "Out", g = {TextSize = ConfirmText.TextSize - 2}}):Play()
 			delay(.06, function()
-				tw({v = TextLabel_2, t = 0.15, s = Enum.EasingStyle.Back, d = "Out", g = {TextSize = 16}}):Play()
+				tw({v = ConfirmText, t = 0.15, s = Enum.EasingStyle.Back, d = "Out", g = {TextSize = 13}}):Play()
 			end)
 			local f = tw({v = Dialog, t = 0.25, s = Enum.EasingStyle.Linear, d = "Out", g = {GroupTransparency = 1}})
 			f:Play()
@@ -5126,9 +5133,9 @@ function Library:Window(p)
 
 		Click2.MouseButton1Click:Connect(function()
 			pcall(Button2)
-			tw({v = TextLabel_3, t = 0.15, s = Enum.EasingStyle.Back, d = "Out", g = {TextSize = TextLabel_3.TextSize - 2}}):Play()
+			tw({v = CancelText, t = 0.15, s = Enum.EasingStyle.Back, d = "Out", g = {TextSize = CancelText.TextSize - 2}}):Play()
 			delay(.06, function()
-				tw({v = TextLabel_3, t = 0.15, s = Enum.EasingStyle.Back, d = "Out", g = {TextSize = 16}}):Play()
+				tw({v = CancelText, t = 0.15, s = Enum.EasingStyle.Back, d = "Out", g = {TextSize = 13}}):Play()
 			end)
 			local f = tw({v = Dialog, t = 0.25, s = Enum.EasingStyle.Linear, d = "Out", g = {GroupTransparency = 1}})
 			f:Play()
