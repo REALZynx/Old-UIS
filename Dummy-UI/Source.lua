@@ -4497,11 +4497,9 @@ function Library:Window(p)
 			local Background = Instance.new("Frame")
 			local UICorner_1 = Instance.new("UICorner")
 			local Header = Instance.new("Frame")
-			local UIPadding_1 = Instance.new("UIPadding")
 			local Title_1 = Instance.new("TextLabel")
 			local Chevron = Instance.new("ImageLabel")
 			local AnswerGroup = Instance.new("CanvasGroup")
-			local UIPadding_2 = Instance.new("UIPadding")
 			local Answer_1 = Instance.new("TextLabel")
 
 			RealBackground.Name = "Real Background"
@@ -4532,9 +4530,7 @@ function Library:Window(p)
 			Header.BorderSizePixel = 0
 			Header.Size = UDim2.new(1, 0,0, HeaderH)
 
-			UIPadding_1.Parent = Header
-			UIPadding_1.PaddingLeft = UDim.new(0,13)
-			UIPadding_1.PaddingRight = UDim.new(0,40)
+			local LeftOffset = (Image and Image ~= "") and 50 or 13
 
 			Title_1.Name = "Title"
 			Title_1.Parent = Header
@@ -4543,8 +4539,8 @@ function Library:Window(p)
 			Title_1.BackgroundTransparency = 1
 			Title_1.BorderColor3 = Color3.fromRGB(0,0,0)
 			Title_1.BorderSizePixel = 0
-			Title_1.Position = UDim2.new(0, 0,0.5, 0)
-			Title_1.Size = UDim2.new(1, 0,0, 14)
+			Title_1.Position = UDim2.new(0, LeftOffset,0.5, 0)
+			Title_1.Size = UDim2.new(1, -(LeftOffset + 40),0, 14)
 			Title_1.AutomaticSize = Enum.AutomaticSize.Y
 			Title_1.Font = Enum.Font.GothamBold
 			Title_1.RichText = true
@@ -4563,7 +4559,7 @@ function Library:Window(p)
 			Chevron.BackgroundTransparency = 1
 			Chevron.BorderColor3 = Color3.fromRGB(0,0,0)
 			Chevron.BorderSizePixel = 0
-			Chevron.Position = UDim2.new(1, 13,0.5, 0)
+			Chevron.Position = UDim2.new(1, -13,0.5, 0)
 			Chevron.Size = UDim2.new(0, 16,0, 16)
 			Chevron.Image = "rbxassetid://14937709869"
 			Chevron.ImageTransparency = 0.3
@@ -4571,8 +4567,6 @@ function Library:Window(p)
 			addToTheme('Text & Icon', Chevron)
 
 			if Image and Image ~= "" then
-				UIPadding_1.PaddingLeft = UDim.new(0, 50)
-
 				local ImageHolder = Instance.new("Frame")
 				local Icon_1 = Instance.new("ImageLabel")
 				local Line_1 = Instance.new("Frame")
@@ -4622,18 +4616,14 @@ function Library:Window(p)
 			AnswerGroup.GroupTransparency = 1
 			AnswerGroup.ClipsDescendants = true
 
-			UIPadding_2.Parent = AnswerGroup
-			UIPadding_2.PaddingLeft = UDim.new(0, Image ~= "" and 50 or 13)
-			UIPadding_2.PaddingRight = UDim.new(0,13)
-			UIPadding_2.PaddingBottom = UDim.new(0,13)
-
 			Answer_1.Name = "Answer"
 			Answer_1.Parent = AnswerGroup
 			Answer_1.BackgroundColor3 = Color3.fromRGB(255,255,255)
 			Answer_1.BackgroundTransparency = 1
 			Answer_1.BorderColor3 = Color3.fromRGB(0,0,0)
 			Answer_1.BorderSizePixel = 0
-			Answer_1.Size = UDim2.new(1, 0,0, 0)
+			Answer_1.Position = UDim2.new(0, LeftOffset,0, 0)
+			Answer_1.Size = UDim2.new(1, -(LeftOffset + 13),0, 0)
 			Answer_1.AutomaticSize = Enum.AutomaticSize.Y
 			Answer_1.Font = Enum.Font.Gotham
 			Answer_1.RichText = true
@@ -5396,7 +5386,7 @@ function Library:Window(p)
 			Tabs:Dialog({
 				Title = "Do you want to <font color='#FF0000'>close</font> the ui?",
 				Button1 = {
-					Title = 'Confirm',
+					Title = 'YES SIR',
 					Color = Color3.fromRGB(0, 188, 0),
 					Callback = function()
 						ScreenGui:Destroy()
