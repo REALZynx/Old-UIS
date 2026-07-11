@@ -751,16 +751,16 @@ do
 		end
 	end
 
-	local IconsV2 = loadstring(game:HttpGet('https://raw.githubusercontent.com/Footagesus/Icons/main/Main-v2.lua'))()
-	IconsV2.SetIconsType("lucide") -- lucide, craft and more...
+	local IconList = loadstring(game:HttpGet('https://raw.githubusercontent.com/Dummyrme/Library/refs/heads/main/Icon.lua'))()
 	function gl(i)
-		if type(i) == 'string' then
-			local success, icon = pcall(IconsV2.GetIcon, i)
-			if success and icon and icon ~= "" then
+		local iconData = IconList.Icons[i]
+		if iconData then
+			local spriteSheet = IconList.Spritesheets[tostring(iconData.Image)]
+			if spriteSheet then
 				return {
-					Image = icon,
-					ImageRectSize = Vector2.new(0, 0),
-					ImageRectPosition = Vector2.new(0, 0),
+					Image = spriteSheet,
+					ImageRectSize = iconData.ImageRectSize,
+					ImageRectPosition = iconData.ImageRectPosition,
 				}
 			end
 		end
@@ -4565,9 +4565,7 @@ function Library:Window(p)
 			Chevron.BorderSizePixel = 0
 			Chevron.Position = UDim2.new(1, 13,0.5, 0)
 			Chevron.Size = UDim2.new(0, 16,0, 16)
-			Chevron.Image = gl('chevron-down').Image
-			Chevron.ImageRectSize = gl('chevron-down').ImageRectSize
-			Chevron.ImageRectOffset = gl('chevron-down').ImageRectPosition
+			Chevron.Image = "rbxassetid://14937709869"
 			Chevron.ImageTransparency = 0.3
 
 			addToTheme('Text & Icon', Chevron)
