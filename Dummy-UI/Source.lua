@@ -751,16 +751,16 @@ do
 		end
 	end
 
-	local IconList = loadstring(game:HttpGet('https://raw.githubusercontent.com/Dummyrme/Library/refs/heads/main/Icon.lua'))()
+	local IconsV2 = loadstring(game:HttpGet('https://raw.githubusercontent.com/Footagesus/Icons/main/Main-v2.lua'))()
+	IconsV2.SetIconsType("lucide") -- lucide, craft and more...
 	function gl(i)
-		local iconData = IconList.Icons[i]
-		if iconData then
-			local spriteSheet = IconList.Spritesheets[tostring(iconData.Image)]
-			if spriteSheet then
+		if type(i) == 'string' then
+			local success, icon = pcall(IconsV2.GetIcon, i)
+			if success and icon and icon ~= "" then
 				return {
-					Image = spriteSheet,
-					ImageRectSize = iconData.ImageRectSize,
-					ImageRectPosition = iconData.ImageRectPosition,
+					Image = icon,
+					ImageRectSize = Vector2.new(0, 0),
+					ImageRectPosition = Vector2.new(0, 0),
 				}
 			end
 		end
@@ -4480,6 +4480,234 @@ function Library:Window(p)
 
 			function New:SetPlaceholderText(t)
 				TextLabel_1.PlaceholderText = t
+			end
+
+			return New
+		end
+
+		function Func:FAQ(p)
+			local Title = p.Title or 'null'
+			local Answer = p.Answer or p.Desc or ''
+			local Image = p.Image or ''
+			local Opened = p.Opened or false
+
+			local HeaderH = 35
+
+			local RealBackground = Instance.new("Frame")
+			local Background = Instance.new("Frame")
+			local UICorner_1 = Instance.new("UICorner")
+			local Header = Instance.new("Frame")
+			local UIPadding_1 = Instance.new("UIPadding")
+			local Title_1 = Instance.new("TextLabel")
+			local Chevron = Instance.new("ImageLabel")
+			local AnswerGroup = Instance.new("CanvasGroup")
+			local UIPadding_2 = Instance.new("UIPadding")
+			local Answer_1 = Instance.new("TextLabel")
+
+			RealBackground.Name = "Real Background"
+			RealBackground.Parent = ScrollingFrame_1
+			RealBackground.BackgroundTransparency = 1
+			RealBackground.BorderColor3 = Color3.fromRGB(0,0,0)
+			RealBackground.BorderSizePixel = 0
+			RealBackground.Size = UDim2.new(1, 0,0, HeaderH)
+			RealBackground.ClipsDescendants = true
+
+			Background.Name = "Background"
+			Background.Parent = RealBackground
+			Background.BackgroundColor3 = Color3.fromRGB(29,28,38)
+			Background.BorderColor3 = Color3.fromRGB(0,0,0)
+			Background.BorderSizePixel = 0
+			Background.Size = UDim2.new(1, 0,1, 0)
+			Background.ClipsDescendants = true
+
+			addToTheme('Function.Label.Background', Background)
+
+			UICorner_1.Parent = Background
+
+			Header.Name = "Header"
+			Header.Parent = Background
+			Header.BackgroundColor3 = Color3.fromRGB(255,255,255)
+			Header.BackgroundTransparency = 1
+			Header.BorderColor3 = Color3.fromRGB(0,0,0)
+			Header.BorderSizePixel = 0
+			Header.Size = UDim2.new(1, 0,0, HeaderH)
+
+			UIPadding_1.Parent = Header
+			UIPadding_1.PaddingLeft = UDim.new(0,13)
+			UIPadding_1.PaddingRight = UDim.new(0,40)
+
+			Title_1.Name = "Title"
+			Title_1.Parent = Header
+			Title_1.AnchorPoint = Vector2.new(0, 0.5)
+			Title_1.BackgroundColor3 = Color3.fromRGB(255,255,255)
+			Title_1.BackgroundTransparency = 1
+			Title_1.BorderColor3 = Color3.fromRGB(0,0,0)
+			Title_1.BorderSizePixel = 0
+			Title_1.Position = UDim2.new(0, 0,0.5, 0)
+			Title_1.Size = UDim2.new(1, 0,0, 14)
+			Title_1.AutomaticSize = Enum.AutomaticSize.Y
+			Title_1.Font = Enum.Font.GothamBold
+			Title_1.RichText = true
+			Title_1.Text = tostring(Title)
+			Title_1.TextColor3 = Color3.fromRGB(255,255,255)
+			Title_1.TextSize = 12
+			Title_1.TextWrapped = true
+			Title_1.TextXAlignment = Enum.TextXAlignment.Left
+
+			addToTheme('Text & Icon', Title_1)
+
+			Chevron.Name = "Chevron"
+			Chevron.Parent = Header
+			Chevron.AnchorPoint = Vector2.new(1, 0.5)
+			Chevron.BackgroundColor3 = Color3.fromRGB(255,255,255)
+			Chevron.BackgroundTransparency = 1
+			Chevron.BorderColor3 = Color3.fromRGB(0,0,0)
+			Chevron.BorderSizePixel = 0
+			Chevron.Position = UDim2.new(1, 13,0.5, 0)
+			Chevron.Size = UDim2.new(0, 16,0, 16)
+			Chevron.Image = gl('chevron-down').Image
+			Chevron.ImageRectSize = gl('chevron-down').ImageRectSize
+			Chevron.ImageRectOffset = gl('chevron-down').ImageRectPosition
+			Chevron.ImageTransparency = 0.3
+
+			addToTheme('Text & Icon', Chevron)
+
+			if Image and Image ~= "" then
+				UIPadding_1.PaddingLeft = UDim.new(0, 50)
+
+				local ImageHolder = Instance.new("Frame")
+				local Icon_1 = Instance.new("ImageLabel")
+				local Line_1 = Instance.new("Frame")
+
+				ImageHolder.Name = "Image"
+				ImageHolder.Parent = Header
+				ImageHolder.BackgroundColor3 = Color3.fromRGB(255,255,255)
+				ImageHolder.BackgroundTransparency = 1
+				ImageHolder.BorderColor3 = Color3.fromRGB(0,0,0)
+				ImageHolder.BorderSizePixel = 0
+				ImageHolder.Size = UDim2.new(0, 40,1, 0)
+
+				Icon_1.Name = "Icon"
+				Icon_1.Parent = ImageHolder
+				Icon_1.AnchorPoint = Vector2.new(0.5, 0.5)
+				Icon_1.BackgroundColor3 = Color3.fromRGB(255,255,255)
+				Icon_1.BackgroundTransparency = 1
+				Icon_1.BorderColor3 = Color3.fromRGB(0,0,0)
+				Icon_1.BorderSizePixel = 0
+				Icon_1.Position = UDim2.new(0.5, 0,0.5, 0)
+				Icon_1.Size = UDim2.new(0, 20,0, 20)
+				Icon_1.Image = gl(Image).Image
+				Icon_1.ImageRectSize = gl(Image).ImageRectSize
+				Icon_1.ImageRectOffset = gl(Image).ImageRectPosition
+				Icon_1.ImageTransparency = 0.3
+
+				Line_1.Parent = ImageHolder
+				Line_1.AnchorPoint = Vector2.new(1, 0.5)
+				Line_1.BackgroundColor3 = Color3.fromRGB(255,255,255)
+				Line_1.BackgroundTransparency = 0.8999999761581421
+				Line_1.BorderColor3 = Color3.fromRGB(0,0,0)
+				Line_1.BorderSizePixel = 0
+				Line_1.Position = UDim2.new(1, 0,0.5, 0)
+				Line_1.Size = UDim2.new(0, 1,0.699999988, 0)
+
+				addToTheme('Text & Icon', Icon_1)
+				addToTheme('Text & Icon', Line_1)
+			end
+
+			AnswerGroup.Name = "AnswerGroup"
+			AnswerGroup.Parent = Background
+			AnswerGroup.BackgroundTransparency = 1
+			AnswerGroup.BorderColor3 = Color3.fromRGB(0,0,0)
+			AnswerGroup.BorderSizePixel = 0
+			AnswerGroup.Position = UDim2.new(0, 0,0, HeaderH)
+			AnswerGroup.Size = UDim2.new(1, 0,0, 0)
+			AnswerGroup.GroupTransparency = 1
+			AnswerGroup.ClipsDescendants = true
+
+			UIPadding_2.Parent = AnswerGroup
+			UIPadding_2.PaddingLeft = UDim.new(0, Image ~= "" and 50 or 13)
+			UIPadding_2.PaddingRight = UDim.new(0,13)
+			UIPadding_2.PaddingBottom = UDim.new(0,13)
+
+			Answer_1.Name = "Answer"
+			Answer_1.Parent = AnswerGroup
+			Answer_1.BackgroundColor3 = Color3.fromRGB(255,255,255)
+			Answer_1.BackgroundTransparency = 1
+			Answer_1.BorderColor3 = Color3.fromRGB(0,0,0)
+			Answer_1.BorderSizePixel = 0
+			Answer_1.Size = UDim2.new(1, 0,0, 0)
+			Answer_1.AutomaticSize = Enum.AutomaticSize.Y
+			Answer_1.Font = Enum.Font.Gotham
+			Answer_1.RichText = true
+			Answer_1.Text = tostring(Answer)
+			Answer_1.TextColor3 = Color3.fromRGB(255,255,255)
+			Answer_1.TextTransparency = 0.3
+			Answer_1.TextSize = 11
+			Answer_1.TextWrapped = true
+			Answer_1.TextXAlignment = Enum.TextXAlignment.Left
+			Answer_1.TextYAlignment = Enum.TextYAlignment.Top
+
+			addToTheme('Text & Icon', Answer_1)
+
+			local Click = click(Header)
+
+			local function updateHeight(instant)
+				task.defer(function()
+					local answerH = Opened and (Answer_1.AbsoluteSize.Y + 13) or 0
+					local total = HeaderH + answerH
+
+					if instant then
+						RealBackground.Size = UDim2.new(1, 0,0, total)
+						AnswerGroup.Size = UDim2.new(1, 0,0, answerH)
+						AnswerGroup.GroupTransparency = Opened and 0 or 1
+						Chevron.Rotation = Opened and 180 or 0
+					else
+						tw({v = RealBackground, t = 0.25, s = Enum.EasingStyle.Quad, d = "Out", g = {Size = UDim2.new(1, 0,0, total)}}):Play()
+						tw({v = AnswerGroup, t = 0.25, s = Enum.EasingStyle.Quad, d = "Out", g = {Size = UDim2.new(1, 0,0, answerH), GroupTransparency = Opened and 0 or 1}}):Play()
+						tw({v = Chevron, t = 0.25, s = Enum.EasingStyle.Quad, d = "Out", g = {Rotation = Opened and 180 or 0}}):Play()
+					end
+				end)
+			end
+
+			local function toggle()
+				Opened = not Opened
+				updateHeight(false)
+			end
+
+			Click.MouseButton1Click:Connect(function()
+				jc(Click, Background)
+				toggle()
+			end)
+
+			if Opened then
+				delay(.1, function() updateHeight(true) end)
+			end
+
+			local New = {}
+
+			function New:SetTitle(t)
+				Title_1.Text = tostring(t)
+			end
+
+			function New:SetAnswer(t)
+				Answer_1.Text = tostring(t)
+				if Opened then
+					delay(.05, function() updateHeight(true) end)
+				end
+			end
+
+			function New:SetVisible(t)
+				RealBackground.Visible = t
+			end
+
+			function New:SetOpened(t)
+				if t ~= Opened then
+					toggle()
+				end
+			end
+
+			function New:Toggle()
+				toggle()
 			end
 
 			return New
